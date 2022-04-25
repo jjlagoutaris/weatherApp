@@ -1,3 +1,3 @@
 # weatherApp
 
-Live: jjlagoutaris.github.io/weatherApp
+Live: https:/jjlagoutaris.github.io/weatherApp
