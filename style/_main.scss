@@ -12,7 +12,11 @@ main{
   .basicInfo, .miscInfo{
     padding: 20px;
     margin: 20px;
-    border: 1px solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
   }
   .userInteractionContainer{
     display: flex;
@@ -21,7 +25,6 @@ main{
     padding: 20px;
     font-weight: bolder;
     margin: auto auto;
-    background-color: rgba(0,0,0, .2);
     border-radius: 10px;
     gap: 10px;
     max-height: 100px;
@@ -29,13 +32,11 @@ main{
     .searchbar{
       display: flex;
       justify-content: center;
-      border: 2px solid powderblue;
+      border: 2px solid transparent; 
       height: fit-content;
-      &:focus-within{
-        border: 2px solid black;
-      }
+      background-color: inherit;
+      border-bottom: 2px solid white;
       button[type="submit"]{
-        border: 2px hidden;
         img{
           max-height: 20px;
         }
@@ -45,13 +46,17 @@ main{
       }
       button[type="submit"], input[type="text"]{
         padding: 10px;
-        font-weight: 900;
-        color: black;
+        font-weight: 700;
+        color: white;
         border: none;
-        background-color: white;
+        background-color: inherit;
+        &::placeholder{
+          color: white;
+        }
       }
       input{
         flex-grow: 2;
+        font-size: .8rem;
         &:focus{
           outline: none;
         }
@@ -64,12 +69,95 @@ main{
       padding: 10px;
       border-radius: 5px;
       color: black;
+      border: none;
+      background-color: powderblue;
       @include centerFlex;
-      border: 2px solid powderblue;
       &:hover{
         cursor: pointer;
+        background-color: lightgreen;
       }
+    }
+
+  }
+
+  .basicInfo{
+    .locationName, .temperature{
+      font-size: 2rem;
+      font-weight: 600;
+    }
+  }
+  .miscInfo{
+    @include centerFlex;
+    .miscInfoHeader{
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    div > p, span{
+      font-size: .9rem;
+      font-weight: 400;
+    }
+    div > h3{
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    .miniContainer{
+      @include centerFlex;
+      flex-direction: column;
+      gap: 10px;
     }
   }
 }
 
+
+
+
+
+
+// Media Queries
+
+@media(max-width: 800px){
+
+  main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    section{
+      min-width: 400px;
+      max-width: 700px;
+    }
+  }
+  
+  .userInteractionContainer{
+    max-width: 300px;
+    font-size: .8rem;
+    input, button{
+      max-width: 100px;
+    }
+  }
+}
+
+@media(max-width: 600px){
+
+  main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    section{
+      min-width: 300px;
+      max-width: 500px;
+    }
+  }
+
+  .userInteractionContainer{
+    max-width: 250px;
+    input, button{
+      max-width: 50px;
+      font-size: .8rem;
+    }
+    input{
+      max-width: 100px;
+    }
+  }
+}

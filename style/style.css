@@ -14,7 +14,20 @@ main {
 main .basicInfo, main .miscInfo {
   padding: 20px;
   margin: 20px;
-  border: 1px solid;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 20px;
 }
 
 main .userInteractionContainer {
@@ -30,7 +43,6 @@ main .userInteractionContainer {
   padding: 20px;
   font-weight: bolder;
   margin: auto auto;
-  background-color: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   gap: 10px;
   max-height: 100px;
@@ -43,18 +55,12 @@ main .userInteractionContainer .searchbar {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  border: 2px solid powderblue;
+  border: 2px solid transparent;
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
-}
-
-main .userInteractionContainer .searchbar:focus-within {
-  border: 2px solid black;
-}
-
-main .userInteractionContainer .searchbar button[type="submit"] {
-  border: 2px hidden;
+  background-color: inherit;
+  border-bottom: 2px solid white;
 }
 
 main .userInteractionContainer .searchbar button[type="submit"] img {
@@ -67,16 +73,33 @@ main .userInteractionContainer .searchbar button[type="submit"]:hover {
 
 main .userInteractionContainer .searchbar button[type="submit"], main .userInteractionContainer .searchbar input[type="text"] {
   padding: 10px;
-  font-weight: 900;
-  color: black;
+  font-weight: 700;
+  color: white;
   border: none;
-  background-color: white;
+  background-color: inherit;
+}
+
+main .userInteractionContainer .searchbar button[type="submit"]::-webkit-input-placeholder, main .userInteractionContainer .searchbar input[type="text"]::-webkit-input-placeholder {
+  color: white;
+}
+
+main .userInteractionContainer .searchbar button[type="submit"]:-ms-input-placeholder, main .userInteractionContainer .searchbar input[type="text"]:-ms-input-placeholder {
+  color: white;
+}
+
+main .userInteractionContainer .searchbar button[type="submit"]::-ms-input-placeholder, main .userInteractionContainer .searchbar input[type="text"]::-ms-input-placeholder {
+  color: white;
+}
+
+main .userInteractionContainer .searchbar button[type="submit"]::placeholder, main .userInteractionContainer .searchbar input[type="text"]::placeholder {
+  color: white;
 }
 
 main .userInteractionContainer .searchbar input {
   -webkit-box-flex: 2;
       -ms-flex-positive: 2;
           flex-grow: 2;
+  font-size: .8rem;
 }
 
 main .userInteractionContainer .searchbar input:focus {
@@ -88,6 +111,8 @@ main .userInteractionContainer .temperatureSystemBtn {
   padding: 10px;
   border-radius: 5px;
   color: black;
+  border: none;
+  background-color: powderblue;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -97,11 +122,121 @@ main .userInteractionContainer .temperatureSystemBtn {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  border: 2px solid powderblue;
 }
 
 main .userInteractionContainer .temperatureSystemBtn:hover {
   cursor: pointer;
+  background-color: lightgreen;
+}
+
+main .basicInfo .locationName, main .basicInfo .temperature {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+main .miscInfo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+main .miscInfo .miscInfoHeader {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+main .miscInfo div > p, main .miscInfo span {
+  font-size: .9rem;
+  font-weight: 400;
+}
+
+main .miscInfo div > h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+main .miscInfo .miniContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+}
+
+@media (max-width: 800px) {
+  main {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  main section {
+    min-width: 400px;
+    max-width: 700px;
+  }
+  .userInteractionContainer {
+    max-width: 300px;
+    font-size: .8rem;
+  }
+  .userInteractionContainer input, .userInteractionContainer button {
+    max-width: 100px;
+  }
+}
+
+@media (max-width: 600px) {
+  main {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  main section {
+    min-width: 300px;
+    max-width: 500px;
+  }
+  .userInteractionContainer {
+    max-width: 250px;
+  }
+  .userInteractionContainer input, .userInteractionContainer button {
+    max-width: 50px;
+    font-size: .8rem;
+  }
+  .userInteractionContainer input {
+    max-width: 100px;
+  }
 }
 
 *, *::before, *::after {
@@ -112,6 +247,8 @@ main .userInteractionContainer .temperatureSystemBtn:hover {
   font-size: 1rem;
   font-weight: 500;
   color: white;
+  font-family: 'Rubik', sans-serif;
+  line-height: 1;
 }
 
 :root {
