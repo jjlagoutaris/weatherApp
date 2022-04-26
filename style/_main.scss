@@ -1,0 +1,75 @@
+@mixin centerFlex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main{
+  height: 70%;
+  display: flex;
+  justify-content: space-between;
+  align-items:flex-start;
+  .basicInfo, .miscInfo{
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid;
+  }
+  .userInteractionContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-weight: bolder;
+    margin: auto auto;
+    background-color: rgba(0,0,0, .2);
+    border-radius: 10px;
+    gap: 10px;
+    max-height: 100px;
+
+    .searchbar{
+      display: flex;
+      justify-content: center;
+      border: 2px solid powderblue;
+      height: fit-content;
+      &:focus-within{
+        border: 2px solid black;
+      }
+      button[type="submit"]{
+        border: 2px hidden;
+        img{
+          max-height: 20px;
+        }
+        &:hover{
+          cursor: pointer;
+        }
+      }
+      button[type="submit"], input[type="text"]{
+        padding: 10px;
+        font-weight: 900;
+        color: black;
+        border: none;
+        background-color: white;
+      }
+      input{
+        flex-grow: 2;
+        &:focus{
+          outline: none;
+        }
+      }
+
+    }
+
+    .temperatureSystemBtn{
+      height: 48px;
+      padding: 10px;
+      border-radius: 5px;
+      color: black;
+      @include centerFlex;
+      border: 2px solid powderblue;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
+}
+

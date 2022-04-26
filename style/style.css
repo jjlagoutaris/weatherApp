@@ -1,8 +1,117 @@
+main {
+  height: 70%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+main .basicInfo, main .miscInfo {
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid;
+}
+
+main .userInteractionContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 20px;
+  font-weight: bolder;
+  margin: auto auto;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  gap: 10px;
+  max-height: 100px;
+}
+
+main .userInteractionContainer .searchbar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border: 2px solid powderblue;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+main .userInteractionContainer .searchbar:focus-within {
+  border: 2px solid black;
+}
+
+main .userInteractionContainer .searchbar button[type="submit"] {
+  border: 2px hidden;
+}
+
+main .userInteractionContainer .searchbar button[type="submit"] img {
+  max-height: 20px;
+}
+
+main .userInteractionContainer .searchbar button[type="submit"]:hover {
+  cursor: pointer;
+}
+
+main .userInteractionContainer .searchbar button[type="submit"], main .userInteractionContainer .searchbar input[type="text"] {
+  padding: 10px;
+  font-weight: 900;
+  color: black;
+  border: none;
+  background-color: white;
+}
+
+main .userInteractionContainer .searchbar input {
+  -webkit-box-flex: 2;
+      -ms-flex-positive: 2;
+          flex-grow: 2;
+}
+
+main .userInteractionContainer .searchbar input:focus {
+  outline: none;
+}
+
+main .userInteractionContainer .temperatureSystemBtn {
+  height: 48px;
+  padding: 10px;
+  border-radius: 5px;
+  color: black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 2px solid powderblue;
+}
+
+main .userInteractionContainer .temperatureSystemBtn:hover {
+  cursor: pointer;
+}
+
 *, *::before, *::after {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
 }
 
 :root {
@@ -11,6 +120,7 @@
 }
 
 body {
-  background: powderblue url("../img/weather.jpg") no-repeat fixed center;
+  background: powderblue url("../img/weather.jpg") no-repeat fixed center/cover;
+  min-height: 100%;
 }
 /*# sourceMappingURL=style.css.map */
