@@ -23,7 +23,11 @@
 
     <section class="basicInfo">
       <h1 class="locationName">Chicago</h1>
-      <p class="temperature">65 &deg;F</p>
+      <div class="tempDiv">
+        <p class="temperature">65 &deg;F</p>
+        <button class="temperatureSystemBtn">Metric</button>
+      </div>
+      
       <p class="date">April 5th 2019</p>
       <div class="weatherIcon">ICON HERE</div>
 
@@ -33,43 +37,40 @@
           <label for="cityInput"> 
           </label>
           <input type="text" name="cityInput" id="cityInput" placeholder="Location">
-          <button type="submit"><img src="./img/icons8-search-64.png" alt="search"></button>
+          <button type="submit"><img src="./img/search.png" alt="search"></button>
         </div>
   
-        <button class="temperatureSystemBtn">Metric</button>
-  
       </section>
+
     </section>
-
-
 
     <section class="miscInfo">
       <h2 class="miscInfoHeader">Additional Info.</h2>
-      <div class="feelsLike">
-        <img src="" alt="">
+      <div class="feelsLike infoBlock">
+        <img src="./img/thermometer.png" alt="">
         <div class="feelsLikeMiniContainer miniContainer">
-          <h3 class="feelsLikeHeader">Feels Like</h3>
+          <h3 class="feelsLikeHeader miniHeader">Feels Like</h3>
           <p class="feelsLikeTemp">65 &deg;<span>F</span></p>
         </div>
       </div>
-      <div class="humidity">
-        <img src="" alt="">
+      <div class="humidity infoBlock">
+        <img src="./img/humidity.png" alt="">
         <div class="humidityMiniContainer miniContainer">
-          <h3 class="humidityHeader">Humidity</h3>
+          <h3 class="humidityHeader miniHeader">Humidity</h3>
           <p class="humidityTemp">32 %</p>
         </div>
       </div>
-      <div class="precipitationChance">
-        <img src="" alt="">
+      <div class="precipitationChance infoBlock">
+        <img src="./img/snow.png" alt="">
         <div class="precipitationChanceMiniContainer miniContainer">
-          <h3 class="precipitationChanceHeader">Precipitation (%)</h3>
+          <h3 class="precipitationChanceHeader miniHeader">Precipitation</h3>
           <p class="precipitationChanceTemp">2 %</p>
         </div>
       </div>
-      <div class="windSpeed">
-        <img src="" alt="">
+      <div class="windSpeed infoBlock">
+        <img src="./img/wind.png" alt="">
         <div class="windSpeedMiniContainer miniContainer">
-          <h3 class="windSpeedHeader">Wind Speed</h3>
+          <h3 class="windSpeedHeader miniHeader">Wind Speed</h3>
           <p class="windSpeedTemp">20 <span>mph</span></p>
         </div>
       </div>

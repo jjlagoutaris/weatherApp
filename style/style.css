@@ -12,8 +12,10 @@ main {
 }
 
 main .basicInfo, main .miscInfo {
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
   padding: 20px;
-  margin: 20px;
+  margin: 50px 100px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -106,35 +108,12 @@ main .userInteractionContainer .searchbar input:focus {
   outline: none;
 }
 
-main .userInteractionContainer .temperatureSystemBtn {
-  height: 48px;
-  padding: 10px;
-  border-radius: 5px;
-  color: black;
-  border: none;
-  background-color: powderblue;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-main .userInteractionContainer .temperatureSystemBtn:hover {
-  cursor: pointer;
-  background-color: lightgreen;
-}
-
 main .basicInfo .locationName, main .basicInfo .temperature {
   font-size: 2rem;
   font-weight: 600;
 }
 
-main .miscInfo {
+main .basicInfo .tempDiv {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -144,6 +123,33 @@ main .miscInfo {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  gap: 20px;
+}
+
+main .miscInfo {
+  max-width: 300px;
+  margin: 30px 100px;
+}
+
+main .miscInfo .infoBlock {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 5px;
+}
+
+main .miscInfo .infoBlock img {
+  max-height: 45px;
 }
 
 main .miscInfo .miscInfoHeader {
@@ -157,7 +163,6 @@ main .miscInfo div > p, main .miscInfo span {
 }
 
 main .miscInfo div > h3 {
-  font-size: 1.2rem;
   font-weight: 500;
 }
 
@@ -176,6 +181,29 @@ main .miscInfo .miniContainer {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 10px;
+}
+
+.temperatureSystemBtn {
+  height: 48px;
+  padding: 10px;
+  border-radius: 5px;
+  color: black;
+  border: none;
+  background-color: powderblue;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.temperatureSystemBtn:hover {
+  cursor: pointer;
+  background-color: lightgreen;
 }
 
 @media (max-width: 800px) {

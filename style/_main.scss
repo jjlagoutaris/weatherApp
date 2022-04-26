@@ -10,8 +10,10 @@ main{
   justify-content: space-between;
   align-items:flex-start;
   .basicInfo, .miscInfo{
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
     padding: 20px;
-    margin: 20px;
+    margin: 50px 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -64,20 +66,6 @@ main{
 
     }
 
-    .temperatureSystemBtn{
-      height: 48px;
-      padding: 10px;
-      border-radius: 5px;
-      color: black;
-      border: none;
-      background-color: powderblue;
-      @include centerFlex;
-      &:hover{
-        cursor: pointer;
-        background-color: lightgreen;
-      }
-    }
-
   }
 
   .basicInfo{
@@ -85,9 +73,26 @@ main{
       font-size: 2rem;
       font-weight: 600;
     }
+    .tempDiv{
+      @include centerFlex;
+      gap: 20px;
+    }
   }
   .miscInfo{
-    @include centerFlex;
+
+    max-width: 300px;
+    margin: 30px 100px;
+
+    .infoBlock{
+      width: 100%;
+      @include centerFlex;
+      justify-content: space-between;
+      gap: 5px;
+      img{
+        max-height: 45px;
+      }
+    }
+
     .miscInfoHeader{
       font-size: 1.5rem;
       font-weight: 600;
@@ -97,7 +102,6 @@ main{
       font-weight: 400;
     }
     div > h3{
-      font-size: 1.2rem;
       font-weight: 500;
     }
     .miniContainer{
@@ -108,6 +112,20 @@ main{
   }
 }
 
+
+.temperatureSystemBtn{
+  height: 48px;
+  padding: 10px;
+  border-radius: 5px;
+  color: black;
+  border: none;
+  background-color: powderblue;
+  @include centerFlex;
+  &:hover{
+    cursor: pointer;
+    background-color: lightgreen;
+  }
+}
 
 
 
