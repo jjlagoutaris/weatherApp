@@ -75,10 +75,25 @@ searchBtn.addEventListener('click', function (){
   }
   // IIFE to filter text and set place
   (function filterInput(){
-    let commaIndex = cityInput.value.indexOf(',');
-    let firstLetter = String(cityInput.value).slice(0, 1).toUpperCase();
-    let remainder = String(cityInput.value).slice(1, commaIndex).toLowerCase();
-    place = String(firstLetter + remainder);
+    let commaIndex, firstLetter, remainder;
+    for(let i = 0; i < cityInput.value.length; i++){
+      if(cityInput.value[i] == ','){
+        commaIndex = i;
+        firstLetter = String(cityInput.value).slice(0, 1).toUpperCase();
+        remainder = String(cityInput.value).slice(1, commaIndex).toLowerCase();
+      }
+    }
+
+    if(commaIndex){
+      firstLetter = String(cityInput.value).slice(0, 1).toUpperCase();
+      remainder = String(cityInput.value).slice(1, commaIndex).toLowerCase();
+      place = String(firstLetter + remainder);
+    }
+    else{
+      firstLetter = String(cityInput.value).slice(0, 1).toUpperCase();
+      remainder = String(cityInput.value).slice(1).toLowerCase();
+      place = String(firstLetter + remainder);
+    }
   })();
 
   getCurrentData().catch(err => {

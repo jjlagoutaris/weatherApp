@@ -211,11 +211,15 @@ main .miscInfo .miniContainer {
 
 .error {
   display: none;
+  font-size: .9rem;
+  border: 1px solid transparent;
 }
 
 .visible {
   display: block;
   max-width: 250px;
+  border: 1px solid white;
+  padding: 10px;
 }
 
 @media (max-width: 800px) {
