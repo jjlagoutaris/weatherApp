@@ -10,7 +10,7 @@ main{
   justify-content: space-between;
   align-items:flex-start;
   .basicInfo, .miscInfo{
-    border-bottom: 1px solid white;
+    // border-bottom: 1px solid white;
     border-top: 1px solid white;
     padding: 20px;
     margin: 50px 100px;
@@ -26,7 +26,7 @@ main{
     align-items: center;
     padding: 20px;
     font-weight: bolder;
-    margin: auto auto;
+    margin-top: -30px;
     border-radius: 10px;
     gap: 10px;
     max-height: 100px;
@@ -73,6 +73,9 @@ main{
       font-size: 2rem;
       font-weight: 600;
     }
+    .temperature{
+      font-size: 2.5rem;
+    }
     .tempDiv{
       @include centerFlex;
       gap: 20px;
@@ -81,7 +84,6 @@ main{
   .miscInfo{
 
     max-width: 300px;
-    margin: 30px 100px;
 
     .infoBlock{
       width: 100%;
@@ -107,11 +109,11 @@ main{
     .miniContainer{
       @include centerFlex;
       flex-direction: column;
-      gap: 10px;
+      gap: 5px;
+      min-width: 200px;
     }
   }
 }
-
 
 .temperatureSystemBtn{
   height: 48px;
@@ -127,8 +129,13 @@ main{
   }
 }
 
-
-
+.error{
+  display: none;
+}
+.visible{
+  display:block;
+  max-width: 250px;
+}
 
 
 // Media Queries

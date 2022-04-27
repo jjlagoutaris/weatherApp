@@ -12,7 +12,6 @@ main {
 }
 
 main .basicInfo, main .miscInfo {
-  border-bottom: 1px solid white;
   border-top: 1px solid white;
   padding: 20px;
   margin: 50px 100px;
@@ -44,7 +43,7 @@ main .userInteractionContainer {
           align-items: center;
   padding: 20px;
   font-weight: bolder;
-  margin: auto auto;
+  margin-top: -30px;
   border-radius: 10px;
   gap: 10px;
   max-height: 100px;
@@ -113,6 +112,10 @@ main .basicInfo .locationName, main .basicInfo .temperature {
   font-weight: 600;
 }
 
+main .basicInfo .temperature {
+  font-size: 2.5rem;
+}
+
 main .basicInfo .tempDiv {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -128,7 +131,6 @@ main .basicInfo .tempDiv {
 
 main .miscInfo {
   max-width: 300px;
-  margin: 30px 100px;
 }
 
 main .miscInfo .infoBlock {
@@ -180,7 +182,8 @@ main .miscInfo .miniContainer {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  gap: 10px;
+  gap: 5px;
+  min-width: 200px;
 }
 
 .temperatureSystemBtn {
@@ -204,6 +207,15 @@ main .miscInfo .miniContainer {
 .temperatureSystemBtn:hover {
   cursor: pointer;
   background-color: lightgreen;
+}
+
+.error {
+  display: none;
+}
+
+.visible {
+  display: block;
+  max-width: 250px;
 }
 
 @media (max-width: 800px) {
