@@ -1,4 +1,5 @@
 @import 'main';
+@import 'section';
 
 *, *::before, *::after{
   box-sizing: border-box;
@@ -16,5 +17,7 @@
 }
 body{
   background: powderblue url("../img/weather.jpg") no-repeat fixed center / cover;
+  display: flex;
+  flex-direction: column;
   min-height: 100%;
 }

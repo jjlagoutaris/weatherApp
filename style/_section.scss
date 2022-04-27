@@ -1,0 +1,35 @@
+section#forecastContainer{
+  margin: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  .forecastHeader{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-content: center;
+    button{
+      font-size: 1.5rem;
+      padding: 10px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+    button.activeChoice{
+      border-bottom: 2px solid white;
+    }
+  }
+
+  section#forecast{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+}
+

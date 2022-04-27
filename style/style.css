@@ -1,5 +1,7 @@
 main {
-  height: 70%;
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -222,7 +224,7 @@ main .miscInfo .miniContainer {
   padding: 10px;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   main {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -283,6 +285,61 @@ main .miscInfo .miniContainer {
   }
 }
 
+section#forecastContainer {
+  margin: 20px;
+  padding: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 30px;
+}
+
+section#forecastContainer .forecastHeader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+
+section#forecastContainer .forecastHeader button {
+  font-size: 1.5rem;
+  padding: 10px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+}
+
+section#forecastContainer .forecastHeader button:hover {
+  cursor: pointer;
+}
+
+section#forecastContainer .forecastHeader button.activeChoice {
+  border-bottom: 2px solid white;
+}
+
+section#forecastContainer section#forecast {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
 *, *::before, *::after {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -302,6 +359,13 @@ main .miscInfo .miniContainer {
 
 body {
   background: powderblue url("../img/weather.jpg") no-repeat fixed center/cover;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   min-height: 100%;
 }
 /*# sourceMappingURL=style.css.map */

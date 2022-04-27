@@ -40,7 +40,7 @@ async function getCurrentData() {
     precipitation.textContent = `${data.current.weather[0].description.toUpperCase()}`;
     humidity.textContent = `${Math.round(data.current.humidity)}%`;
     locationName.textContent = place;
-    date.textContent = `${convertDate(data.current.dt, 0, 24)}`;
+    date.textContent = `${convertDate(data.current.dt, data.timezone_offset, 0, 24)}`;
     return data;
   } else if (response2.status == '404') {
     errorMessage.classList.add('visible');
@@ -55,18 +55,14 @@ tempSystemBtn.addEventListener('click', function () {
     unitSystem = 'metric';
     unitTemp = '°C';
     unitSpeed = 'km/h';
-    getCurrentData().catch(err => {
-      console.error(err);
-    });
+    updateData();
   }
   else {
     tempSystemBtn.textContent = 'Imperial';
     unitSystem = 'imperial';
     unitTemp = '°F';
     unitSpeed = 'mph';
-    getCurrentData().catch(err => {
-      console.error(err);
-    });
+    updateData();
   }
 });
 
@@ -99,68 +95,68 @@ searchBtn.addEventListener('click', function () {
   let input = getInput();
   place = capitalizeInput(input);
 
-  getCurrentData().catch(err => {
-    console.error(err);
-    errorMessage.classList.add('visible');
-  });
+  updateData();
+
   cityInput.value = '';
 });
 
-// set icons
-// http://openweathermap.org/img/wn/10d@2x.png
+function convertDate(time, offset, startEl, endEl){
 
-function convertDate(time, startEl, endEl){
-
-  let unix_timestamp = time;
+  let unix_timestamp = time + offset + 14400;
   let date = (new Date(unix_timestamp*1000)+'').slice(startEl,endEl);
 
   console.log(date);
   return date;
 }
 
-
-// generate forecast section
-
 function generateForecast(data) {
 
   let slotCount = 1;
 
-  for (let i = 0; i < 7; i++) {
-    let dayContainer = document.createElement('div');
-    dayContainer.classList = `dayContainer ${slotCount}`;
-    let h3 = document.createElement('h3');
-    h3.classList = `dayHeader ${slotCount}`;
-    h3.textContent = `${convertDate(data.daily[i].dt, 0, 10)}`;
-    let p1 = document.createElement('p');
-    p1.classList = `highTemp ${slotCount}`;
-    p1.textContent = `${Math.round(data.daily[i].temp.max)} ${unitTemp}`;
-    let p2 = document.createElement('p');
-    p2.classList = `lowTemp ${slotCount}`;
-    p2.textContent = `${Math.round(data.daily[i].temp.min)} ${unitTemp}`;
-    let icon = document.createElement('img');
-    icon.classList = `icon ${slotCount}`;
-    icon.src = `http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`;
-    let description = document.createElement('p');
-    description.classList = `dayDescription ${slotCount}`;
-    description.textContent = `${data.daily[i].weather[0].description.toUpperCase()}`;
-
-    dayContainer.append(h3);
-    dayContainer.append(p1);
-    dayContainer.append(p2);
-    dayContainer.append(icon);
-    dayContainer.append(description);
-    forecast.append(dayContainer);
+  function generateContent(){
+    for (let i = 0; i < 7; i++) {
+      let dayContainer = document.createElement('div');
+      dayContainer.classList = `dayContainer ${slotCount}`;
+      let h3 = document.createElement('h3');
+      h3.classList = `dayHeader ${slotCount}`;
+      h3.textContent = `${convertDate(data.daily[i].dt, data.timezone_offset, 0, 10)}`;
+      let p1 = document.createElement('p');
+      p1.classList = `highTemp ${slotCount}`;
+      p1.textContent = `${Math.round(data.daily[i].temp.max)} ${unitTemp}`;
+      let p2 = document.createElement('p');
+      p2.classList = `lowTemp ${slotCount}`;
+      p2.textContent = `${Math.round(data.daily[i].temp.min)} ${unitTemp}`;
+      let icon = document.createElement('img');
+      icon.classList = `icon ${slotCount}`;
+      icon.src = `http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`;
+      let description = document.createElement('p');
+      description.classList = `dayDescription ${slotCount}`;
+      description.textContent = `${data.daily[i].weather[0].description.toUpperCase()}`;
+  
+      dayContainer.append(h3);
+      dayContainer.append(p1);
+      dayContainer.append(p2);
+      dayContainer.append(icon);
+      dayContainer.append(description);
+      forecast.append(dayContainer);
+    }
   }
+
+  forecast.innerHTML = '';
+  generateContent();
 }
 
-// IIFE to start program
-(function runProgram() {
-
+// calls the getCurrentData function so I don't have to keep copy & pasting it
+const updateData = () => {
   getCurrentData().then((response) => {
     console.log("response: ", response);
     generateForecast(response);
   }).catch(err => {
     console.error(err);
   });
+}
 
+// IIFE to start program
+(function runProgram() {
+  updateData();
 })();
