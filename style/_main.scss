@@ -1,11 +1,7 @@
-@mixin centerFlex {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+@import 'global';
 
 main{
-  flex: 2;
+  flex: 1 1 auto;
   display: flex;
   justify-content: space-between;
   align-items:flex-start;
@@ -70,7 +66,7 @@ main{
 
   .basicInfo{
     .locationName, .temperature{
-      font-size: 2rem;
+      font-size: 1.6rem;
       font-weight: 600;
     }
     .temperature{
@@ -79,6 +75,9 @@ main{
     .tempDiv{
       @include centerFlex;
       gap: 20px;
+    }
+    .weatherIcon{
+      width: 90px;
     }
   }
   .miscInfo{
@@ -93,6 +92,10 @@ main{
       img{
         max-height: 45px;
       }
+    }
+
+    .precipitationPercentage{
+      margin-top: 5px;
     }
 
     .miscInfoHeader{
@@ -139,54 +142,4 @@ main{
   max-width: 250px;
   border: 1px solid white;
   padding: 10px;
-}
-
-
-// Media Queries
-
-@media(max-width: 900px){
-
-  main{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    section{
-      min-width: 400px;
-      max-width: 700px;
-    }
-  }
-  
-  .userInteractionContainer{
-    max-width: 300px;
-    font-size: .8rem;
-    input, button{
-      max-width: 100px;
-    }
-  }
-}
-
-@media(max-width: 600px){
-
-  main{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    section{
-      min-width: 300px;
-      max-width: 500px;
-    }
-  }
-
-  .userInteractionContainer{
-    max-width: 250px;
-    input, button{
-      max-width: 50px;
-      font-size: .8rem;
-    }
-    input{
-      max-width: 100px;
-    }
-  }
 }

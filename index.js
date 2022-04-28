@@ -3,6 +3,7 @@ const temperature = document.querySelector('.temperature');
 const tempSystemBtn = document.querySelector('.temperatureSystemBtn');
 const date = document.querySelector('.date');
 const weatherIcon = document.querySelector('.weatherIcon');
+const weatherDescription = document.querySelector('.basicWeatherDescription');
 const cityInput = document.getElementById('cityInput');
 const searchBtn = document.getElementById('searchBtn');
 const feelsLike = document.querySelector('.feelsLikeTemp');
@@ -29,6 +30,8 @@ async function getCurrentData() {
   if (response1.status == '200') {
     let dataR1 = await response1.json();
     response2 = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${dataR1.coord.lat}&lon=${dataR1.coord.lon}&exclude=minutely&appid=032f71daed3f927e8fcbd0d51217898c&units=${unitSystem}`);
+  } else if (response1.status == '404') {
+    errorMessage.classList.add('visible');
   }
 
   if (response2.status == '200') {
@@ -40,7 +43,9 @@ async function getCurrentData() {
     precipitation.textContent = `${data.current.weather[0].description.toUpperCase()}`;
     humidity.textContent = `${Math.round(data.current.humidity)}%`;
     locationName.textContent = place;
-    date.textContent = `${convertDate(data.current.dt, data.timezone_offset, 0, 24)}`;
+    date.textContent = `${convertDate(data.current.dt, data.timezone_offset, 0, 21)}`;
+    weatherDescription.textContent = `${capitalize(data.current.weather[0].description)}`;
+    weatherIcon.src = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`
     return data;
   } else if (response2.status == '404') {
     errorMessage.classList.add('visible');
@@ -49,16 +54,17 @@ async function getCurrentData() {
 }
 
 // switch unit systems
+
 tempSystemBtn.addEventListener('click', function () {
   if (unitSystem == 'imperial') {
-    tempSystemBtn.textContent = 'Metric';
+    tempSystemBtn.textContent = 'Imperial';
     unitSystem = 'metric';
     unitTemp = '°C';
     unitSpeed = 'km/h';
     updateData();
   }
   else {
-    tempSystemBtn.textContent = 'Imperial';
+    tempSystemBtn.textContent = 'Metric';
     unitSystem = 'imperial';
     unitTemp = '°F';
     unitSpeed = 'mph';
@@ -66,24 +72,36 @@ tempSystemBtn.addEventListener('click', function () {
   }
 });
 
+function capitalize(text){
+
+  function capitalizeInput(input) {
+    return `${input.substring(0, 1).toUpperCase()}${input.substring(1, input.length).toLowerCase()}`;
+  }
+
+  let words = text.split(" ");
+  for(let i=0; i < words.length; i++){
+    words[i] = capitalizeInput(words[i]);
+  }
+  let result = words.join(' ');
+  console.log(result);
+  return result;
+}
+
+
 
 // filter out whitespace, commas, and add plus where necessary for successful url request
+
 function getInput() {
-  const input = cityInput.value;
+  const input = capitalize(cityInput.value);
 
   if (input) {
     return input
       .replace(/(\s+$|^\s+)/g, '')
-      .replace(/(,\s+)/g, ',')
+      // .replace(/(,\s+)/g, ',')
       .replace(/(\s+,)/g, ',')
   }
   return '';
 }
-
-function capitalizeInput(input) {
-  return `${input.substring(0, 1).toUpperCase()}${input.substring(1, input.length).toLowerCase()}`;
-}
-
 
 // enter new location
 
@@ -93,12 +111,22 @@ searchBtn.addEventListener('click', function () {
   }
 
   let input = getInput();
-  place = capitalizeInput(input);
+  place = input;
 
   updateData();
 
   cityInput.value = '';
 });
+
+// simulates click of searchBtn if cityInput has 'enter' keyboard button pressed
+
+cityInput.addEventListener('keypress', function(e){
+  if(e.key === 'Enter'){
+    searchBtn.click();
+  }
+});
+
+// converts from unix time 
 
 function convertDate(time, offset, startEl, endEl){
 
@@ -109,6 +137,8 @@ function convertDate(time, offset, startEl, endEl){
   return date;
 }
 
+// adds forecast to dom
+
 function generateForecast(data) {
 
   let slotCount = 1;
@@ -116,29 +146,29 @@ function generateForecast(data) {
   function generateContent(){
     for (let i = 0; i < 7; i++) {
       let dayContainer = document.createElement('div');
-      dayContainer.classList = `dayContainer ${slotCount}`;
+      dayContainer.classList = `dayContainer slot${slotCount}`;
       let h3 = document.createElement('h3');
-      h3.classList = `dayHeader ${slotCount}`;
+      h3.classList = `dayHeader slot${slotCount}`;
       h3.textContent = `${convertDate(data.daily[i].dt, data.timezone_offset, 0, 10)}`;
+      let pContainer = document.createElement('div');
+      pContainer.classList = `pContainer slot${slotCount}`;
       let p1 = document.createElement('p');
-      p1.classList = `highTemp ${slotCount}`;
+      p1.classList = `highTemp slot${slotCount}`;
       p1.textContent = `${Math.round(data.daily[i].temp.max)} ${unitTemp}`;
       let p2 = document.createElement('p');
-      p2.classList = `lowTemp ${slotCount}`;
+      p2.classList = `lowTemp slot${slotCount}`;
       p2.textContent = `${Math.round(data.daily[i].temp.min)} ${unitTemp}`;
       let icon = document.createElement('img');
-      icon.classList = `icon ${slotCount}`;
+      icon.classList = `icon slot${slotCount}`;
       icon.src = `http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`;
       let description = document.createElement('p');
-      description.classList = `dayDescription ${slotCount}`;
+      description.classList = `dayDescription slot${slotCount}`;
       description.textContent = `${data.daily[i].weather[0].description.toUpperCase()}`;
   
-      dayContainer.append(h3);
-      dayContainer.append(p1);
-      dayContainer.append(p2);
-      dayContainer.append(icon);
-      dayContainer.append(description);
+      pContainer.append(p1, p2);
+      dayContainer.append(h3, pContainer, icon, description);
       forecast.append(dayContainer);
+      slotCount++;
     }
   }
 

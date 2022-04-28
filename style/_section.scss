@@ -26,10 +26,31 @@ section#forecastContainer{
 
   section#forecast{
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    justify-content: space-between;
     gap: 10px;
     margin-bottom: 10px;
+    .dayContainer{
+      flex: 1 1 0px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .highTemp{
+        font-size: 1.2rem;
+      }
+      .lowTemp{
+        font-size: .7rem;
+      }
+      img{
+        width: 100px;
+        margin: auto;
+      }
+      .dayHeader, .dayDescription, .pContainer > *{
+        margin: 10px;
+        display: flex;
+        justify-content: center;
+      }
+    }
   }
 }
+
 
