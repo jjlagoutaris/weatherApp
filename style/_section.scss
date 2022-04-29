@@ -21,10 +21,15 @@ section#forecastContainer{
     }
     button.activeChoice{
       border-bottom: 2px solid white;
+      &:focus{
+        border: none;
+        border-bottom: 2px solid white;
+      }
     }
   }
 
   section#forecast{
+    height: calc(min(350px, 80%));
     display: flex;
     justify-content: space-between;
     gap: 10px;

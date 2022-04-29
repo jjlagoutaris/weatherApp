@@ -273,7 +273,13 @@ section#forecastContainer .forecastHeader button.activeChoice {
   border-bottom: 2px solid white;
 }
 
+section#forecastContainer .forecastHeader button.activeChoice:focus {
+  border: none;
+  border-bottom: 2px solid white;
+}
+
 section#forecastContainer section#forecast {
+  height: calc(min(350px, 80%));
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

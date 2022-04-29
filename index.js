@@ -1,3 +1,4 @@
+// basic info 
 const locationName = document.querySelector('.locationName');
 const temperature = document.querySelector('.temperature');
 const tempSystemBtn = document.querySelector('.temperatureSystemBtn');
@@ -5,18 +6,26 @@ const date = document.querySelector('.date');
 const weatherIcon = document.querySelector('.weatherIcon');
 const weatherDescription = document.querySelector('.basicWeatherDescription');
 const cityInput = document.getElementById('cityInput');
+const errorMessage = document.querySelector('.error');
+
+// misc info
 const searchBtn = document.getElementById('searchBtn');
 const feelsLike = document.querySelector('.feelsLikeTemp');
 const humidity = document.querySelector('.humidityPercentage');
 const precipitation = document.querySelector('.precipitationPercentage');
 const windSpeed = document.querySelector('.windSpeed');
-const errorMessage = document.querySelector('.error');
+
+// forecast
 const forecast = document.getElementById('forecast');
+const forecastBtns = document.querySelector('.forecastHeader');
+const dailyBtn = document.querySelector('.dailyBtn');
+const hourlyBtn = document.querySelector('.hourlyBtn');
 
 let place = 'Framingham';
 let unitSystem = 'imperial';
 let unitTemp = '°F';
 let unitSpeed = 'mph';
+let forecastSetting = 'daily';
 
 // get geocoordinates and current weather data
 
@@ -72,6 +81,23 @@ tempSystemBtn.addEventListener('click', function () {
   }
 });
 
+// switch daily/hourly forecast
+
+forecastBtns.addEventListener('click', (e) => {
+  if(e.target.classList.contains('dailyBtn') && forecastSetting !== 'daily'){
+     forecastSetting = 'daily';
+     e.target.classList.add('activeChoice');
+     forecastBtns.children[1].classList.remove('activeChoice');
+     updateData();
+  } else if(e.target.classList.contains('hourlyBtn') && forecastSetting !== 'hourly'){
+    forecastSetting = 'hourly';
+    e.target.classList.add('activeChoice');
+    forecastBtns.children[0].classList.remove('activeChoice');
+    updateData();
+  }
+});
+
+
 function capitalize(text){
 
   function capitalizeInput(input) {
@@ -86,8 +112,6 @@ function capitalize(text){
   console.log(result);
   return result;
 }
-
-
 
 // filter out whitespace, commas, and add plus where necessary for successful url request
 
@@ -128,13 +152,37 @@ cityInput.addEventListener('keypress', function(e){
 
 // converts from unix time 
 
-function convertDate(time, offset, startEl, endEl){
+function convertDate(time, offset, startEl, endEl = 0){
 
   let unix_timestamp = time + offset + 14400;
-  let date = (new Date(unix_timestamp*1000)+'').slice(startEl,endEl);
+  let date;
 
-  console.log(date);
-  return date;
+  if (endEl != 0){
+    date = (new Date(unix_timestamp*1000)+'').slice(startEl,endEl);
+  } else{
+    date = (new Date(unix_timestamp*1000)+'').slice(startEl);
+  }
+
+  if(forecastSetting == 'daily'){
+    return date;
+  } else{
+    console.log(date);
+    if(date >= 12){
+      date = `${(date % 12)} PM`;
+      console.log(date);
+      return date;
+    } else if (date == 00){
+      date = `12 AM`;
+      console.log(date);
+      return date;
+    } else{
+      date = `${date} AM`;
+      if(date[0] == '0'){
+        return date.slice(1);
+      }
+      return date;
+    }
+  }
 }
 
 // adds forecast to dom
@@ -142,25 +190,31 @@ function convertDate(time, offset, startEl, endEl){
 function generateForecast(data) {
 
   let slotCount = 1;
+  forecast.innerHTML = '';
 
-  function generateContent(){
+  function generateDailyForecast(){
     for (let i = 0; i < 7; i++) {
       let dayContainer = document.createElement('div');
       dayContainer.classList = `dayContainer slot${slotCount}`;
+
       let h3 = document.createElement('h3');
       h3.classList = `dayHeader slot${slotCount}`;
       h3.textContent = `${convertDate(data.daily[i].dt, data.timezone_offset, 0, 10)}`;
+
       let pContainer = document.createElement('div');
       pContainer.classList = `pContainer slot${slotCount}`;
+
       let p1 = document.createElement('p');
       p1.classList = `highTemp slot${slotCount}`;
       p1.textContent = `${Math.round(data.daily[i].temp.max)} ${unitTemp}`;
       let p2 = document.createElement('p');
       p2.classList = `lowTemp slot${slotCount}`;
       p2.textContent = `${Math.round(data.daily[i].temp.min)} ${unitTemp}`;
+
       let icon = document.createElement('img');
       icon.classList = `icon slot${slotCount}`;
       icon.src = `http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`;
+
       let description = document.createElement('p');
       description.classList = `dayDescription slot${slotCount}`;
       description.textContent = `${data.daily[i].weather[0].description.toUpperCase()}`;
@@ -172,8 +226,39 @@ function generateForecast(data) {
     }
   }
 
-  forecast.innerHTML = '';
-  generateContent();
+  function generateHourlyForecast(){
+    for (let i = 0; i < 8; i++) {
+
+      let hourContainer = document.createElement('div');
+      hourContainer.classList = `hourContainer slot${slotCount}`;
+
+      let h3 = document.createElement('h3');
+      h3.classList = `hourHeader slot${slotCount}`;
+      h3.textContent = `${convertDate(data.hourly[i].dt, data.timezone_offset, 16, 18)}`;
+
+      let p1 = document.createElement('p');
+      p1.classList = `hourTemp slot${slotCount}`;
+      p1.textContent = `${Math.round(data.hourly[i].temp)} ${unitTemp}`;
+
+      let icon = document.createElement('img');
+      icon.classList = `icon slot${slotCount}`;
+      icon.src = `http://openweathermap.org/img/wn/${data.hourly[i].weather[0].icon}@2x.png`;
+      
+      let description = document.createElement('p');
+      description.classList = `hourDescription slot${slotCount}`;
+      description.textContent = `${data.hourly[i].weather[0].description.toUpperCase()}`;
+  
+      hourContainer.append(h3, p1, icon, description);
+      forecast.append(hourContainer);
+      slotCount++;
+    }
+  }
+
+  if (forecastSetting == 'daily'){
+    generateDailyForecast();
+  } else{
+    generateHourlyForecast();
+  }
 }
 
 // calls the getCurrentData function so I don't have to keep copy & pasting it
