@@ -36,7 +36,7 @@ let activeDotBtn = 1;
 async function getCurrentData() {
 
   // get coordinates
-  let response1 = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${place}&appid=032f71daed3f927e8fcbd0d51217898c`, { mode: 'cors' });
+  let response1 = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${place}&appid=032f71daed3f927e8fcbd0d51217898c`, { mode: 'cors' });
 
   let response2;
 
@@ -57,7 +57,7 @@ async function getCurrentData() {
     locationName.textContent = place;
     date.textContent = `${convertDate(data.current.dt, data.timezone_offset, 0, 21)}`;
     weatherDescription.textContent = `${capitalize(data.current.weather[0].description)}`;
-    weatherIcon.src = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`
+    weatherIcon.src = `https://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`
     return data;
   } else if (response2.status == '404') {
     errorMessage.classList.add('visible');
@@ -153,7 +153,7 @@ function generateForecast(data) {
 
       let icon = document.createElement('img');
       icon.classList = `icon slot${slotCount}`;
-      icon.src = `http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`;
+      icon.src = `https://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`;
 
       let description = document.createElement('p');
       description.classList = `dayDescription slot${slotCount}`;
@@ -190,7 +190,7 @@ function generateForecast(data) {
   
         let icon = document.createElement('img');
         icon.classList = `icon slot${slotCount}`;
-        icon.src = `http://openweathermap.org/img/wn/${data.hourly[i].weather[0].icon}@2x.png`;
+        icon.src = `https://openweathermap.org/img/wn/${data.hourly[i].weather[0].icon}@2x.png`;
         
         let description = document.createElement('p');
         description.classList = `hourDescription slot${slotCount}`;
