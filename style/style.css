@@ -233,6 +233,7 @@ main .miscInfo .miniContainer {
 }
 
 section#forecastContainer {
+  height: clamp(200px, 400px, 800px);
   margin: 20px;
   padding: 20px;
   display: -webkit-box;
@@ -257,7 +258,7 @@ section#forecastContainer .forecastHeader {
       align-content: center;
 }
 
-section#forecastContainer .forecastHeader button {
+section#forecastContainer .forecastHeader button.dailyBtn, section#forecastContainer .forecastHeader button.hourlyBtn {
   font-size: 1.5rem;
   padding: 10px;
   background: none;
@@ -265,7 +266,7 @@ section#forecastContainer .forecastHeader button {
   border-bottom: 2px solid transparent;
 }
 
-section#forecastContainer .forecastHeader button:hover {
+section#forecastContainer .forecastHeader button.dailyBtn:hover, section#forecastContainer .forecastHeader button.hourlyBtn:hover {
   cursor: pointer;
 }
 
@@ -278,11 +279,54 @@ section#forecastContainer .forecastHeader button.activeChoice:focus {
   border-bottom: 2px solid white;
 }
 
-section#forecastContainer section#forecast {
-  height: calc(min(350px, 80%));
+section#forecastContainer .forecastHeader div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  gap: 5px;
+}
+
+section#forecastContainer .forecastHeader div .dotBtn {
+  margin: auto;
+  padding: 10px;
+  border: none;
+  border-radius: 50%;
+  background-color: inherit;
+  border: 1px solid black;
+  opacity: .9;
+  cursor: pointer;
+}
+
+section#forecastContainer .forecastHeader div .dotBtn:hover {
+  cursor: pointer;
+}
+
+section#forecastContainer .forecastHeader div .leftBtn, section#forecastContainer .forecastHeader div .rightBtn {
+  font-size: 3rem;
+  border: none;
+  background-color: inherit;
+  color: white;
+}
+
+section#forecastContainer .forecastHeader div .leftBtn:hover, section#forecastContainer .forecastHeader div .rightBtn:hover {
+  cursor: pointer;
+}
+
+section#forecastContainer .forecastHeader div .activeDot {
+  background-color: white;
+}
+
+section#forecastContainer section#forecast {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: clamp(200px, 300px, 600px);
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -290,7 +334,21 @@ section#forecastContainer section#forecast {
   margin-bottom: 10px;
 }
 
-section#forecastContainer section#forecast .dayContainer {
+section#forecastContainer section#forecast > * {
+  height: 250px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+section#forecastContainer section#forecast .dayContainer, section#forecastContainer section#forecast .hourContainer {
+  padding: 10px;
   -webkit-box-flex: 1;
       -ms-flex: 1 1 0px;
           flex: 1 1 0px;
@@ -301,25 +359,22 @@ section#forecastContainer section#forecast .dayContainer {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
 }
 
-section#forecastContainer section#forecast .dayContainer .highTemp {
-  font-size: 1.2rem;
+section#forecastContainer section#forecast .dayContainer .highTemp, section#forecastContainer section#forecast .hourContainer .highTemp {
+  font-size: 1.4rem;
 }
 
-section#forecastContainer section#forecast .dayContainer .lowTemp {
-  font-size: .7rem;
+section#forecastContainer section#forecast .dayContainer .lowTemp, section#forecastContainer section#forecast .hourContainer .lowTemp {
+  font-size: .9rem;
 }
 
-section#forecastContainer section#forecast .dayContainer img {
+section#forecastContainer section#forecast .dayContainer img, section#forecastContainer section#forecast .hourContainer img {
   width: 100px;
   margin: auto;
 }
 
-section#forecastContainer section#forecast .dayContainer .dayHeader, section#forecastContainer section#forecast .dayContainer .dayDescription, section#forecastContainer section#forecast .dayContainer .pContainer > * {
+section#forecastContainer section#forecast .dayContainer .dayHeader, section#forecastContainer section#forecast .dayContainer .dayDescription, section#forecastContainer section#forecast .dayContainer .pContainer > *, section#forecastContainer section#forecast .hourContainer .dayHeader, section#forecastContainer section#forecast .hourContainer .dayDescription, section#forecastContainer section#forecast .hourContainer .pContainer > * {
   margin: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -327,6 +382,31 @@ section#forecastContainer section#forecast .dayContainer .dayHeader, section#for
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+section#forecastContainer section#forecast .dayContainer .iconDiv, section#forecastContainer section#forecast .hourContainer .iconDiv {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-size: .7rem;
+}
+
+section#forecastContainer section#forecast .dayContainer .iconDiv > *, section#forecastContainer section#forecast .hourContainer .iconDiv > * {
+  margin: auto;
+}
+
+.invisibleDotDiv {
+  display: none !important;
 }
 
 *, *::before, *::after {
@@ -358,7 +438,20 @@ body {
   min-height: 100%;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1150px) {
+  section#forecastContainer section#forecast .hourContainer {
+    border-bottom: 2px solid white;
+  }
+  section#forecastContainer section#forecast .hourContainer > .p1, section#forecastContainer section#forecast .hourContainer .hourHeader {
+    width: 50px;
+  }
+  section#forecastContainer section#forecast .hourContainer > .iconDiv {
+    width: 70px;
+    font-size: .8rem;
+  }
+}
+
+@media (max-width: 1000px) {
   main {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -375,8 +468,7 @@ body {
             flex-direction: column;
   }
   main section {
-    min-width: 400px;
-    max-width: 700px;
+    width: calc(clamp(300px, 400px, 700px));
   }
   .userInteractionContainer {
     max-width: 300px;
@@ -386,11 +478,13 @@ body {
     max-width: 100px;
   }
   section#forecastContainer {
+    height: auto;
     margin: 5px;
     padding: 5px;
     font-size: .9rem;
   }
   section#forecastContainer section#forecast {
+    height: auto;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
@@ -402,25 +496,40 @@ body {
         -ms-flex-pack: center;
             justify-content: center;
   }
-  section#forecastContainer section#forecast .dayContainer {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
+  section#forecastContainer section#forecast .dayContainer, section#forecastContainer section#forecast .hourContainer {
+    border-bottom: 2px solid white;
+    line-height: 1;
+    height: auto;
     width: 500px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
     gap: 10px;
   }
+  section#forecastContainer section#forecast .dayContainer > .dayHeader, section#forecastContainer section#forecast .dayContainer .pContainer, section#forecastContainer section#forecast .dayContainer .iconDiv, section#forecastContainer section#forecast .hourContainer > .dayHeader, section#forecastContainer section#forecast .hourContainer .pContainer, section#forecastContainer section#forecast .hourContainer .iconDiv {
+    width: 100px;
+  }
+  section#forecastContainer section#forecast .hourContainer {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    margin: 10px;
+    padding: 10px;
+  }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   main section {
     min-width: 300px;
     max-width: 500px;
@@ -460,7 +569,7 @@ body {
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 500px) {
   section#forecastContainer section#forecast .dayContainer {
     width: 200px;
   }

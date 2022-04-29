@@ -1,4 +1,6 @@
 section#forecastContainer{
+  // border: 2px solid red;
+  height: clamp(200px, 400px, 800px);
   margin: 20px;
   padding: 20px;
   display: flex;
@@ -9,7 +11,7 @@ section#forecastContainer{
     gap: 10px;
     justify-content: center;
     align-content: center;
-    button{
+    button.dailyBtn, button.hourlyBtn{
       font-size: 1.5rem;
       padding: 10px;
       background: none;
@@ -26,24 +28,58 @@ section#forecastContainer{
         border-bottom: 2px solid white;
       }
     }
+    div{
+      display: flex;
+      gap: 5px;
+      .dotBtn{
+        margin: auto;
+        padding: 10px;
+        border: none;
+        border-radius: 50%;
+        background-color: inherit;
+        border: 1px solid black;
+        opacity: .9;
+        &:hover{
+          cursor: pointer;
+        }
+        cursor: pointer;
+      }
+      .leftBtn, .rightBtn{
+        font-size: 3rem;
+        border: none;
+        background-color: inherit;
+        color: white;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+      .activeDot{
+        background-color: white;
+      }
+    }
   }
 
   section#forecast{
-    height: calc(min(350px, 80%));
-    display: flex;
+    @include centerFlex;
+    height: clamp(200px, 300px, 600px);
     justify-content: space-between;
     gap: 10px;
     margin-bottom: 10px;
-    .dayContainer{
+    > *{
+      height: 250px;
+      @include centerFlex;
+    }
+    .dayContainer, .hourContainer{
+      // border: 2px solid red;
+      padding: 10px;
       flex: 1 1 0px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       .highTemp{
-        font-size: 1.2rem;
+        font-size: 1.4rem;
       }
       .lowTemp{
-        font-size: .7rem;
+        font-size: .9rem;
       }
       img{
         width: 100px;
@@ -54,8 +90,18 @@ section#forecastContainer{
         display: flex;
         justify-content: center;
       }
+      .iconDiv{
+        @include centerFlex;
+        flex-direction: column;
+        font-size: .7rem;
+        > *{
+          margin: auto;
+        }
+      }
     }
   }
 }
 
-
+.invisibleDotDiv{
+  display: none !important;
+}

@@ -1,4 +1,4 @@
-// basic info 
+// basic info selectors
 const locationName = document.querySelector('.locationName');
 const temperature = document.querySelector('.temperature');
 const tempSystemBtn = document.querySelector('.temperatureSystemBtn');
@@ -8,24 +8,28 @@ const weatherDescription = document.querySelector('.basicWeatherDescription');
 const cityInput = document.getElementById('cityInput');
 const errorMessage = document.querySelector('.error');
 
-// misc info
+// misc info selectors
 const searchBtn = document.getElementById('searchBtn');
 const feelsLike = document.querySelector('.feelsLikeTemp');
 const humidity = document.querySelector('.humidityPercentage');
 const precipitation = document.querySelector('.precipitationPercentage');
 const windSpeed = document.querySelector('.windSpeed');
 
-// forecast
+// forecast selectors
 const forecast = document.getElementById('forecast');
 const forecastBtns = document.querySelector('.forecastHeader');
 const dailyBtn = document.querySelector('.dailyBtn');
 const hourlyBtn = document.querySelector('.hourlyBtn');
+const dotDiv = document.querySelector('.dotDiv');
+const dotBtn1 = document.querySelector('.btn1');
 
+// global variables
 let place = 'Framingham';
 let unitSystem = 'imperial';
 let unitTemp = '°F';
 let unitSpeed = 'mph';
 let forecastSetting = 'daily';
+let activeDotBtn = 1;
 
 // get geocoordinates and current weather data
 
@@ -45,7 +49,6 @@ async function getCurrentData() {
 
   if (response2.status == '200') {
     let data = await response2.json();
-    console.log(data);
     temperature.textContent = `${Math.round(data.current.temp)} ${unitTemp}`;
     feelsLike.textContent = `${Math.round(data.current.feels_like)} ${unitTemp}`;
     windSpeed.textContent = `${Math.round(data.current.wind_speed)} ${unitSpeed}`;
@@ -84,18 +87,231 @@ tempSystemBtn.addEventListener('click', function () {
 // switch daily/hourly forecast
 
 forecastBtns.addEventListener('click', (e) => {
+
   if(e.target.classList.contains('dailyBtn') && forecastSetting !== 'daily'){
+     updateDot();
      forecastSetting = 'daily';
      e.target.classList.add('activeChoice');
      forecastBtns.children[1].classList.remove('activeChoice');
      updateData();
   } else if(e.target.classList.contains('hourlyBtn') && forecastSetting !== 'hourly'){
+    updateDot();
     forecastSetting = 'hourly';
     e.target.classList.add('activeChoice');
     forecastBtns.children[0].classList.remove('activeChoice');
     updateData();
   }
 });
+
+// enter new location
+
+searchBtn.addEventListener('click', function () {
+  if (errorMessage.classList.contains('visible')) {
+    errorMessage.classList.remove('visible');
+  }
+
+  let input = getInput();
+  place = input;
+
+  updateData();
+
+  cityInput.value = '';
+});
+
+
+// adds forecast to dom
+
+function generateForecast(data) {
+
+  let slotCount = 1;
+  forecast.innerHTML = '';
+
+  function generateDailyForecast(){
+
+    hideDotDiv();
+
+    for (let i = 0; i < 7; i++) {
+      let dayContainer = document.createElement('div');
+      dayContainer.classList = `dayContainer slot${slotCount}`;
+
+      let h3 = document.createElement('h3');
+      h3.classList = `dayHeader slot${slotCount}`;
+      h3.textContent = `${convertDate(data.daily[i].dt, data.timezone_offset, 0, 10)}`;
+
+      let pContainer = document.createElement('div');
+      pContainer.classList = `pContainer slot${slotCount}`;
+
+      let p1 = document.createElement('p');
+      p1.classList = `highTemp slot${slotCount}`;
+      p1.textContent = `${Math.round(data.daily[i].temp.max)} ${unitTemp}`;
+      let p2 = document.createElement('p');
+      p2.classList = `lowTemp slot${slotCount}`;
+      p2.textContent = `${Math.round(data.daily[i].temp.min)} ${unitTemp}`;
+
+      let iconDiv = document.createElement('div');
+      iconDiv.classList = `iconDiv slot${slotCount}`;
+
+      let icon = document.createElement('img');
+      icon.classList = `icon slot${slotCount}`;
+      icon.src = `http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`;
+
+      let description = document.createElement('p');
+      description.classList = `dayDescription slot${slotCount}`;
+      description.textContent = `${data.daily[i].weather[0].description.toUpperCase()}`;
+  
+      pContainer.append(p1, p2);
+      iconDiv.append(icon, description);
+      dayContainer.append(h3, pContainer, iconDiv);
+      forecast.append(dayContainer);
+      slotCount++;
+    }
+  }
+
+  function generateHourlyForecast(){
+
+    makeDotDivVisible();
+
+    function hourSwitching(startHr, endHr){
+      for (let i = startHr; i < endHr; i++) {
+
+        let hourContainer = document.createElement('div');
+        hourContainer.classList = `hourContainer slot${slotCount}`;
+  
+        let h3 = document.createElement('h3');
+        h3.classList = `hourHeader slot${slotCount}`;
+        h3.textContent = `${convertDate(data.hourly[i].dt, data.timezone_offset, 16, 18)}`;
+  
+        let p1 = document.createElement('p');
+        p1.classList = `hourTemp slot${slotCount}`;
+        p1.textContent = `${Math.round(data.hourly[i].temp)} ${unitTemp}`;
+  
+        let iconDiv = document.createElement('div');
+        iconDiv.classList = `iconDiv slot${slotCount}`;
+  
+        let icon = document.createElement('img');
+        icon.classList = `icon slot${slotCount}`;
+        icon.src = `http://openweathermap.org/img/wn/${data.hourly[i].weather[0].icon}@2x.png`;
+        
+        let description = document.createElement('p');
+        description.classList = `hourDescription slot${slotCount}`;
+        description.textContent = `${data.hourly[i].weather[0].description.toUpperCase()}`;
+    
+        iconDiv.append(icon, description);
+        hourContainer.append(h3, p1, iconDiv);
+        forecast.append(hourContainer);
+        slotCount++;
+      }
+    }
+    if(activeDotBtn == 1){
+      hourSwitching(0, 8);
+    } else if(activeDotBtn == 2){
+      hourSwitching(8, 16);
+    } else if(activeDotBtn == 3){
+      hourSwitching(16, 24);
+    } else{
+      console.error('Error during hour switching.');
+    }
+    
+  }
+
+  if (forecastSetting == 'daily'){
+    generateDailyForecast();
+  } else{
+    generateHourlyForecast();
+  }
+}
+
+
+// switches which hour forecast is displayed & updates dot buttons accordingly
+
+forecastBtns.addEventListener('click', (e) => {
+
+  let target = e.target.classList;
+
+  if(target.contains('btn1') && activeDotBtn !== 1){
+    clearActiveDot();
+    target.add('activeDot');
+    activeDotBtn = 1;
+    updateData();
+  }
+  else if (target.contains('btn2') && activeDotBtn !== 2){
+    clearActiveDot();
+    target.add('activeDot');
+    activeDotBtn = 2;
+    updateData();
+  } else if (target.contains('btn3') && activeDotBtn !== 3){
+    clearActiveDot();
+    target.add('activeDot');
+    activeDotBtn = 3;
+    updateData();
+  } else if(target.contains('leftBtn')){
+    if(activeDotBtn !== 1){
+      clearActiveDot();
+      target.add('activeDot');
+      activeDotBtn--;
+      updateData();
+    } else{
+      clearActiveDot();
+      target.add('activeDot');
+      activeDotBtn = 3;
+      updateData();
+    }
+  } else if(target.contains('rightBtn')){
+    if(activeDotBtn !== 3){
+      clearActiveDot();
+      target.add('activeDot');
+      activeDotBtn++;
+      updateData();
+    } else{
+      clearActiveDot();
+      target.add('activeDot');
+      activeDotBtn = 1;
+      updateData();
+    }
+  }
+
+});
+
+
+
+
+// --------- helper / side functions --------------------
+
+
+
+
+// set visible / hide for dot selector menu
+
+function makeDotDivVisible(){
+  if(dotDiv.classList.contains('invisibleDotDiv')){
+    dotDiv.classList.remove('invisibleDotDiv');
+  }
+}
+
+function hideDotDiv(){
+  if(!dotDiv.classList.contains('invisibleDotDiv')){
+    dotDiv.classList.add('invisibleDotDiv');
+  }
+}
+
+// clear the activeDot - helper function
+
+function clearActiveDot(){
+  let dotDivChildren = dotDiv.getElementsByTagName('*');
+  for(let i = 0; i < dotDivChildren.length; i++){
+    if(dotDivChildren[i].classList.contains('activeDot')){
+      dotDivChildren[i].classList.remove('activeDot');
+    }
+  }
+}
+
+// reset active dot to 1st slot
+
+function updateDot(){
+  clearActiveDot();
+  dotBtn1.classList.add('activeDot');
+  activeDotBtn = 1;
+}
 
 
 function capitalize(text){
@@ -109,7 +325,6 @@ function capitalize(text){
     words[i] = capitalizeInput(words[i]);
   }
   let result = words.join(' ');
-  console.log(result);
   return result;
 }
 
@@ -126,21 +341,6 @@ function getInput() {
   }
   return '';
 }
-
-// enter new location
-
-searchBtn.addEventListener('click', function () {
-  if (errorMessage.classList.contains('visible')) {
-    errorMessage.classList.remove('visible');
-  }
-
-  let input = getInput();
-  place = input;
-
-  updateData();
-
-  cityInput.value = '';
-});
 
 // simulates click of searchBtn if cityInput has 'enter' keyboard button pressed
 
@@ -166,14 +366,14 @@ function convertDate(time, offset, startEl, endEl = 0){
   if(forecastSetting == 'daily'){
     return date;
   } else{
-    console.log(date);
-    if(date >= 12){
+    if(date > 12){
       date = `${(date % 12)} PM`;
-      console.log(date);
+      return date;
+    } else if(date == 12){
+      date = `${date} PM`;
       return date;
     } else if (date == 00){
       date = `12 AM`;
-      console.log(date);
       return date;
     } else{
       date = `${date} AM`;
@@ -185,86 +385,16 @@ function convertDate(time, offset, startEl, endEl = 0){
   }
 }
 
-// adds forecast to dom
 
-function generateForecast(data) {
 
-  let slotCount = 1;
-  forecast.innerHTML = '';
+// run program
 
-  function generateDailyForecast(){
-    for (let i = 0; i < 7; i++) {
-      let dayContainer = document.createElement('div');
-      dayContainer.classList = `dayContainer slot${slotCount}`;
 
-      let h3 = document.createElement('h3');
-      h3.classList = `dayHeader slot${slotCount}`;
-      h3.textContent = `${convertDate(data.daily[i].dt, data.timezone_offset, 0, 10)}`;
 
-      let pContainer = document.createElement('div');
-      pContainer.classList = `pContainer slot${slotCount}`;
-
-      let p1 = document.createElement('p');
-      p1.classList = `highTemp slot${slotCount}`;
-      p1.textContent = `${Math.round(data.daily[i].temp.max)} ${unitTemp}`;
-      let p2 = document.createElement('p');
-      p2.classList = `lowTemp slot${slotCount}`;
-      p2.textContent = `${Math.round(data.daily[i].temp.min)} ${unitTemp}`;
-
-      let icon = document.createElement('img');
-      icon.classList = `icon slot${slotCount}`;
-      icon.src = `http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`;
-
-      let description = document.createElement('p');
-      description.classList = `dayDescription slot${slotCount}`;
-      description.textContent = `${data.daily[i].weather[0].description.toUpperCase()}`;
-  
-      pContainer.append(p1, p2);
-      dayContainer.append(h3, pContainer, icon, description);
-      forecast.append(dayContainer);
-      slotCount++;
-    }
-  }
-
-  function generateHourlyForecast(){
-    for (let i = 0; i < 8; i++) {
-
-      let hourContainer = document.createElement('div');
-      hourContainer.classList = `hourContainer slot${slotCount}`;
-
-      let h3 = document.createElement('h3');
-      h3.classList = `hourHeader slot${slotCount}`;
-      h3.textContent = `${convertDate(data.hourly[i].dt, data.timezone_offset, 16, 18)}`;
-
-      let p1 = document.createElement('p');
-      p1.classList = `hourTemp slot${slotCount}`;
-      p1.textContent = `${Math.round(data.hourly[i].temp)} ${unitTemp}`;
-
-      let icon = document.createElement('img');
-      icon.classList = `icon slot${slotCount}`;
-      icon.src = `http://openweathermap.org/img/wn/${data.hourly[i].weather[0].icon}@2x.png`;
-      
-      let description = document.createElement('p');
-      description.classList = `hourDescription slot${slotCount}`;
-      description.textContent = `${data.hourly[i].weather[0].description.toUpperCase()}`;
-  
-      hourContainer.append(h3, p1, icon, description);
-      forecast.append(hourContainer);
-      slotCount++;
-    }
-  }
-
-  if (forecastSetting == 'daily'){
-    generateDailyForecast();
-  } else{
-    generateHourlyForecast();
-  }
-}
 
 // calls the getCurrentData function so I don't have to keep copy & pasting it
 const updateData = () => {
   getCurrentData().then((response) => {
-    console.log("response: ", response);
     generateForecast(response);
   }).catch(err => {
     console.error(err);

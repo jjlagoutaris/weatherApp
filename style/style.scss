@@ -26,13 +26,20 @@ body{
 
 // Media Queries
 
-// @media(max-width: 1100px){
+@media(max-width: 1150px){
+  section#forecastContainer section#forecast .hourContainer{
+    border-bottom: 2px solid white;
+    > .p1, .hourHeader{
+      width: 50px;
+    }
+    > .iconDiv{
+      width: 70px;
+      font-size: .8rem;
+    }
+  }
+}
 
-
-
-// }
-
-@media(max-width: 900px){
+@media(max-width: 1000px){
 
   main{
     display: flex;
@@ -40,8 +47,7 @@ body{
     align-items: center;
     flex-direction: column;
     section{
-      min-width: 400px;
-      max-width: 700px;
+      width: calc(clamp(300px, 400px, 700px));
     }
   }
   
@@ -54,26 +60,45 @@ body{
   }
 
   section#forecastContainer{
+    height: auto;
     margin: 5px;
     padding: 5px;
     font-size: .9rem;
     section#forecast{
+      height: auto;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      .dayContainer{
-        flex-direction: row;
+      .dayContainer, .hourContainer{
+        border-bottom: 2px solid white;
+        line-height: 1;
+        height: auto;
         width: 500px;
         display: flex;
-        justify-content: space-around;
+        flex-direction: row;
+        justify-content: space-between;
         align-items: center;
         gap: 10px;
+        > .dayHeader, .pContainer, .iconDiv{
+          width: 100px;
+        }
+        // > .highTemp{
+        //   font-size: 1rem;
+        // }
+        // > .lowTemp{
+        //   font-size: .8rem;
+        // }
+      }
+      .hourContainer{
+        flex-direction: column;
+        margin: 10px;
+        padding: 10px;
       }
     }
   }
 }
 
-@media(max-width: 600px){
+@media(max-width: 700px){
 
   main section{
     min-width: 300px;
@@ -115,7 +140,7 @@ body{
 
 }
 
-@media(max-width: 450px){
+@media(max-width: 500px){
   section#forecastContainer section#forecast .dayContainer{
     width: 200px;
     .highTemp{
