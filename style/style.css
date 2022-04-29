@@ -305,11 +305,14 @@ section#forecastContainer .forecastHeader div .leftBtn, section#forecastContaine
   font-size: 3rem;
   border: none;
   background-color: inherit;
-  color: white;
 }
 
 section#forecastContainer .forecastHeader div .leftBtn:hover, section#forecastContainer .forecastHeader div .rightBtn:hover {
   cursor: pointer;
+}
+
+section#forecastContainer .forecastHeader div .leftBtn::after, section#forecastContainer .forecastHeader div .leftBtn::before, section#forecastContainer .forecastHeader div .rightBtn::after, section#forecastContainer .forecastHeader div .rightBtn::before {
+  display: none;
 }
 
 section#forecastContainer .forecastHeader div .activeDot {

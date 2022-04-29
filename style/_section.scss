@@ -48,9 +48,11 @@ section#forecastContainer{
         font-size: 3rem;
         border: none;
         background-color: inherit;
-        color: white;
         &:hover{
           cursor: pointer;
+        }
+        &::after, &::before{
+          display: none;
         }
       }
       .activeDot{

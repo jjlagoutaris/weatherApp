@@ -227,6 +227,7 @@ function generateForecast(data) {
 forecastBtns.addEventListener('click', (e) => {
 
   let target = e.target.classList;
+  let divChildren = dotDiv.getElementsByTagName('*');
 
   if(target.contains('btn1') && activeDotBtn !== 1){
     clearActiveDot();
@@ -247,25 +248,25 @@ forecastBtns.addEventListener('click', (e) => {
   } else if(target.contains('leftBtn')){
     if(activeDotBtn !== 1){
       clearActiveDot();
-      target.add('activeDot');
       activeDotBtn--;
+      divChildren[activeDotBtn].classList.add('activeDot');
       updateData();
     } else{
       clearActiveDot();
-      target.add('activeDot');
       activeDotBtn = 3;
+      divChildren[activeDotBtn].classList.add('activeDot');
       updateData();
     }
   } else if(target.contains('rightBtn')){
     if(activeDotBtn !== 3){
       clearActiveDot();
-      target.add('activeDot');
       activeDotBtn++;
+      divChildren[activeDotBtn].classList.add('activeDot');
       updateData();
     } else{
       clearActiveDot();
-      target.add('activeDot');
       activeDotBtn = 1;
+      divChildren[activeDotBtn].classList.add('activeDot');
       updateData();
     }
   }
